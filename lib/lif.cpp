@@ -1,15 +1,21 @@
 #include <torch/extension.h>
 
+torch::Tensor d_sigmoid(torch::Tensor z)
+{
+    auto s = torch::sigmoid(z);
+    return (1 - s) * s;
+}
+
 at::Tensor lif_forward(
     torch::Tensor x,
     torch::Tensor v,
     float th,
     float tau)
 {
-    v = v + (x - v) / tau;
-    x = (v >= th).to(x);
-    v = (1 - x) * v;
-    return x, v;
+    auto v_h = v + (x - v) / tau;
+    x = (v_h >= th).to(x);
+    v = v * (1 - x);
+    return x, v, v_h;
 }
 
 at::Tensor lif_backward(torch::Tensor x)

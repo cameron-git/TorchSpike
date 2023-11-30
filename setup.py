@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages, Extension
-import torch
+import sys
+
+print(sys.executable)
 from torch.utils import cpp_extension
 import os
 
