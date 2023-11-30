@@ -10,14 +10,24 @@ setup(
     install_requires=["torch"],
     ext_modules=[
         cpp_extension.CppExtension(
-            "torchspike_lib",
+            "torchspike_cpu",
             [
-                os.path.join("lib", file)
+                os.path.join("cpp", file)
                 for file in [
                     "lif.cpp",
                 ]
             ],
-        )
+        ), 
+        cpp_extension.CUDAExtension(
+            "torchspike_cuda",
+            [
+                os.path.join("cpp", file)
+                for file in [
+                    "lif_cuda.cpp",
+                    "lif_cuda_kernel.cu",
+                ]
+            ],
+        ), 
     ],
     cmdclass={"build_ext": cpp_extension.BuildExtension},
 )
