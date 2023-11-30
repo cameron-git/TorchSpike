@@ -1,5 +1,4 @@
-from setuptools import setup, find_packages, Extension
-import torch
+from setuptools import setup
 from torch.utils import cpp_extension
 import os
 
@@ -12,7 +11,7 @@ setup(
         cpp_extension.CppExtension(
             "torchspike_cpu",
             [
-                os.path.join("cpp", file)
+                os.path.join("torchspike_ext","cpu", file)
                 for file in [
                     "lif.cpp",
                 ]
@@ -21,7 +20,7 @@ setup(
         cpp_extension.CUDAExtension(
             "torchspike_cuda",
             [
-                os.path.join("cpp", file)
+                os.path.join("torchspike_ext","cuda", file)
                 for file in [
                     "lif_cuda.cpp",
                     "lif_cuda_kernel.cu",
